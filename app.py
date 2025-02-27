@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import requests
 
 # Function to set background image using CSS
 def set_background_image(image_url: str):
@@ -55,9 +56,18 @@ def navigate_to(page):
 
 # List of Tender PDFs with URLs
 pdf_files = [
-    {"File Name": "Report 1", "Download Link": "https://democppp.nic.in/cppp8/sites/default/files/standard_biddingdocs/MTD%20Goods%20NIC.pdf"},
-    {"File Name": "Report 2", "Download Link": "https://democppp.nic.in/cppp8/sites/default/files/standard_biddingdocs/MTD%20Srvices%20NIC.pdf"},
+    {"File Name": "Report 1", "Download Link": "https://democppp.nic.in/cppp8/sites/default/files/standard_biddingdocs/Procurement_Consultancy_Services.pdf"},
+    {"File Name": "Report 2", "Download Link": "https://democppp.nic.in/cppp8/sites/default/files/standard_biddingdocs/MTD%20Goods%20NIC.pdf"},
 ]
+
+# Function to fetch PDF file content
+def fetch_pdf(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.content
+    else:
+        st.error(f"Failed to fetch file: {url}")
+        return None
 
 # Dashboard Page
 def dashboard():
@@ -71,9 +81,13 @@ def dashboard():
     
     # Display PDF Files in Table Format
     df = pd.DataFrame(pdf_files)
+    
     for index, row in df.iterrows():
         st.write(f"**{row['File Name']}**")
-        st.download_button(label="Download", data=row["Download Link"], file_name=row["File Name"] + ".pdf")
+        pdf_content = fetch_pdf(row["Download Link"])
+        
+        if pdf_content:
+            st.download_button(label="Download", data=pdf_content, file_name=row["File Name"] + ".pdf", mime="application/pdf")
 
 # Login Page
 def login_page():
