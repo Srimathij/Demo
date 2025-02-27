@@ -78,7 +78,7 @@ def dashboard():
 # Login Page
 def login_page():
     set_background_image("https://t3.ftcdn.net/jpg/09/66/43/60/360_F_966436072_AsibYvj7JnhEoHQrD0kcxvGdOBFEMpCf.jpg")
-    st.markdown("<h1 style='text-align: center;'>𝚆𝚎𝚕𝚌𝚘𝚖𝚎 𝚝𝚘 𝚅𝚒𝚗𝚒!</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>EuroMec Dashboard!</h1>", unsafe_allow_html=True)
     st.session_state.name = st.text_input("Enter your Name", placeholder="Enter your name")
     st.session_state.number = st.text_input("Enter your Number", placeholder="Enter your mobile number")
     st.button("Login", on_click=login)
